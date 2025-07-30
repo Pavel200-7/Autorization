@@ -1,0 +1,17 @@
+{
+    "name": "user111/autorization",
+    "description": "тестовое задание с авторизацией",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Яковлев Павел"
+        }
+    ],
+    "require": {
+      "ext-mbstring": "*"
+    }
+}

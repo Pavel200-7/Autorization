@@ -1,0 +1,38 @@
+body {
+    background-color: wheat;
+    text-align: center;
+    padding-top: 100px;
+}
+
+h1 {
+    font-size: 56px;
+}
+
+.block {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.link {
+    padding: 20px 40px 20px 40px;
+    border: black solid 2px;
+    border-radius: 10px;
+}
+
+.registration-link {
+    background-color: skyblue;
+}
+
+.registration-link:hover {
+    background-color: #58bbe4;
+}
+
+.autorization-link {
+    background-color: #45a049;
+}
+
+.autorization-link:hover {
+    background-color: #67e46d;
+}
