@@ -2,15 +2,13 @@
 
 namespace App\Services;
 
-require_once dirname(__DIR__) . '/bootstrap.php';
 
 use App\DataBase\UserDB;
 use App\Entities\User;
 
-class UserValidator
+class UserValidatorReg
 {
     private UserDB $userDB;
-
     private array $errors;
     private array $bannedNames;
 
@@ -32,7 +30,7 @@ class UserValidator
         $this->validatePassword($user->getPassword(), $user->getConfirmPassword());
     }
 
-    private function validateName(string $name): void
+    public function validateName(string $name): void
     {
         $length = mb_strlen($name);
         if ($length < 3 || $length > 64) {
@@ -58,7 +56,7 @@ class UserValidator
 
     }
 
-    private function validatePhone(string $phone): void
+    public function validatePhone(string $phone): void
     {
         $pattern = '/^(\+7|8)?[\s-]?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/';;
         if (!preg_match($pattern, $phone)) {
@@ -72,20 +70,20 @@ class UserValidator
         }
     }
 
-    private function validateEmail(string $email): void
+    public function validateEmail(string $email): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->errors['email'] = 'Некорректный формат электронной почты.';
             return;
         }
 
-        if ($this->userDB->getUserByPhone($email) !== false) {
+        if ($this->userDB->getUserByEmail($email) !== false) {
             $this->errors['email'] = 'Данная почта уже занята.';
             return;
         }
     }
 
-    private function validatePassword(string $password, string $confirmPassword): void
+    public function validatePassword(string $password, string $confirmPassword): void
     {
         $pattern = '/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/';
         if (!preg_match($pattern, $password)) {

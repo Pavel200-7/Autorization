@@ -1,52 +1,53 @@
 <?php
 
-namespace App\Controllers\RegistrationController;
+namespace App\Controllers\AuthorizationController;
 
 use App\Controllers\AbstractController;
 use App\Entities\User;
-use App\Services\UserValidatorReg;
+use App\Services\UserValidatorAut;
 
-
-class RegistrationController extends AbstractController
+class AuthorizationController extends AbstractController
 {
-    public function register(?string $name, ?string $phone, ?string $email, ?string $password, ?string $confirmPassword): void
+    public function authorize(?string $email, ?string $password, $captchaToken): void
     {
         $User = new User();
-        $User->setName($name);
-        $User->setPhone($phone);
         $User->setEmail($email);
         $User->setPassword($password);
-        $User->setConfirmPassword($confirmPassword);
 
-        $validator = new UserValidatorReg();
+        $validator = new UserValidatorAut();
         $validator->validate($User);
+        $validator->checkCaptcha($captchaToken);
 
         if (!empty($errors = $validator->getErrors())) {
             $this->redirectBack($User, $errors);
         } else {
-            $this->userDB->createUserFromObject($User);
-            $successMessage = $this->successMessage->getSeccessMessagePage('Авторизация прошла успешно.');
+            $this->authorizeUser($User);
+            $successMessage = $this->successMessage->getSeccessMessagePage('Авторизация прошла успешно');
             $this->redirectBack($User, $errors, $successMessage);
         }
     }
 
-    public function redirectBack(User $user, array $errors, $successMessage = null): void
+    private function authorizeUser(User $user): void
+    {
+        $userId = $this->userDB->getUserIdByEmail($user->getEmail());
+        $_SESSION['userId'] = $userId;
+    }
+
+    public function redirectBack(User $user, array $errors, array $successMessage = null): void
     {
         $_SESSION['errors'] = empty($errors) ? null : $errors;
         $_SESSION['success_message'] = $successMessage;
         $_SESSION['formData'] = $this->getFormDataIfItCorrect($errors, $user);
-        header('Location: /pages/Registration.php');
+
+        header('Location: /pages/Authorization.php');
         exit();
     }
 
     private function getFormDataIfItCorrect(array $errors, User $user): array
     {
         $formData = array();
-        $formData['name'] = isset($errors['name']) ? '' : $user->getName();
-        $formData['phone'] = isset($errors['phone']) ? '' : $user->getPhone();
         $formData['email'] = isset($errors['email']) ? '' : $user->getEmail();
         $formData['password'] = isset($errors['password']) ? '' : $user->getPassword();
         return $formData;
     }
-
 }

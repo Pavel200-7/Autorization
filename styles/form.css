@@ -5,6 +5,11 @@
     border-radius: 8px;
 }
 
+.form__container_short {
+    max-width: 250px;
+}
+
+
 .form-group {
     margin-bottom: 15px;
 }
@@ -58,4 +63,5 @@ label {
 
 .success {
     color: green;
+    font-size: 14px;
 }

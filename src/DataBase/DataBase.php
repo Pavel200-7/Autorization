@@ -4,8 +4,6 @@ namespace App\DataBase;
 
 use PDO;
 
-require_once dirname(__DIR__) . '/bootstrap.php';
-
 class DataBase
 {
     protected $pdo;

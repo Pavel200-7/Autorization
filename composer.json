@@ -12,6 +12,8 @@
         }
     ],
     "require": {
-      "ext-mbstring": "*"
+      "ext-mbstring": "*",
+      "ext-curl": "*",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

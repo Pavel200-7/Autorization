@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Controllers\RegistrationController;
 
 require_once dirname(__DIR__, 2) . '/bootstrap.php';
 
 use App\Controllers\RegistrationController\RegistrationController;
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     session_start();
-    $_SESSION['errors'] = [];
+    $_SESSION['errors'] = null;
+    $_SESSION['success_message'] = null;
+    $_SESSION['formData'] = null;
 
     $name = htmlspecialchars($_POST['name'] ?? null);
     $phone = htmlspecialchars($_POST['phone'] ?? null);

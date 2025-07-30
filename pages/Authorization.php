@@ -17,7 +17,6 @@ function dropSessionData(): void
     $_SESSION['success_message'] = null;
     $_SESSION['formData'] = null;
 }
-
 ?>
 
 
@@ -25,46 +24,26 @@ function dropSessionData(): void
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Регистрация</title>
+    <title>Авторизация</title>
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/form.css">
-    <script src="https://unpkg.com/imask"></script>
-    <script src="/js/PhoneMask.js" defer></script>
+    <script src="https://smartcaptcha.yandexcloud.net/captcha.js" defer></script>
     <script src="/js/redirectToIndex.js"></script>
 </head>
 <body>
 <div class="block">
 </div>
 <div class="block">
-
     <div class="form">
-        <form action="/src/Controllers/RegistrationController/Registration.php" method="post"
+        <form action="/src/Controllers/AuthorizationController/Authorization.php" method="post"
               class="form__container">
 
-            <?php if (isset($success_message['page'])): ?>
+            <?php if (isset($success_message['page'])):   ?>
                 <?= getSuccessMessageAndDropSessionData($success_message['page']) ?>
                 <script>redirectToIndexIn3Sec()</script>
             <?php endif; ?>
 
-            <h1>Регистрация</h1>
-
-            <div class="form-group">
-                <label for="name">Имя:</label>
-
-                <?php if (isset($errors['name'])) echo "<p class='error'>{$errors['name']}</p>"; ?>
-
-                <input type="text" id="name" name="name" placeholder="Введите ваше имя" class="form__element"
-                       minlength="3" maxlength="64" value="<?= $formData['name'] ?? ''?>">
-            </div>
-
-            <div class="form-group">
-                <label for="phone">Телефон:</label>
-
-                <?php if (isset($errors['phone'])) echo "<p class='error'>{$errors['phone']}</p>"; ?>
-
-                <input type="tel" id="phone" name="phone" pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,11}$" placeholder="+7 (000) 000-00-00"
-                       class="form__element" minlength="11" maxlength="19" value="<?= $formData['phone'] ?? '' ?>">
-            </div>
+            <h1>Авторизация</h1>
 
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -85,20 +64,22 @@ function dropSessionData(): void
             </div>
 
             <div class="form-group">
-                <label for="confirm_password">Подтвердить пароль:</label>
-                <input type="password" id="confirm_password" name="confirm_password"
-                       placeholder="Подтвердите ваш пароль" class="form__element" minlength="6" maxlength="30">
+
+                <?php if ($errors['captcha']) echo "<p class='error'>{$errors['captcha']}</p>"; ?>
+
+                <div
+                        id="captcha-container"
+                        class="smart-captcha"
+                        data-sitekey="ysc1_JxmaTDmEfaPbC6hWxarYNiDPmQcHZp7K1Zqpscxd05feebcc"
+                ></div>
             </div>
 
-            <input type="submit" class="form__button" value="Зарегистрироваться">
-        </form>
+            <input type="submit" class="form__button" value="Авторизоваться">
 
+        </form>
         <a href="/index.php">Главная</a>
-        <a href="/pages/Authorization.php">Авторизация</a>
+        <a href="/pages/Registration.php">Регистрация</a>
     </div>
 </div>
-
-
-
 </body>
 </html>

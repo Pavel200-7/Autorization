@@ -36,3 +36,12 @@ h1 {
 .autorization-link:hover {
     background-color: #67e46d;
 }
+
+.personal-account-link {
+    padding: 20px 85px 20px 85px;
+    background-color: rgba(200, 4, 9, 0.7);
+}
+
+.personal-account-link:hover {
+    background-color: rgba(239, 32, 37, 0.7);
+}

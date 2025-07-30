@@ -10,16 +10,6 @@ class User
     private ?string $password;
     private ?string $confirmPassword;
 
-    public function __construct(?string $name, ?string $phone, ?string $email, ?string $password, ?string $confirmPassword)
-    {
-        $this->name = $name;
-        $this->phone = $phone;
-        $this->email = $email;
-        $this->password = $password;
-        $this->confirmPassword = $confirmPassword;
-    }
-
-
     public function getName(): ?string
     {
         return $this->name;

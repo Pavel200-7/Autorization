@@ -2,9 +2,6 @@
 
 namespace App\DataBase;
 
-require_once dirname(__DIR__, 2) . '/vendor/autoload.php';
-
-use App\DataBase\DataBase;
 use App\Entities\User;
 use PDO;
 
@@ -78,5 +75,54 @@ class UserDB extends DataBase
         return $result;
     }
 
+    public function getPasswordByEmail(string $email)
+    {
+        $query = "SELECT password FROM users WHERE email = :email";
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([':email' => $email]);
+        $result = $statement->fetchColumn();
+        return $result;
+    }
 
+    public function getUserIdByEmail(string $email)
+    {
+        $query = "SELECT id FROM users WHERE email = :email";
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([':email' => $email]);
+        $result = $statement->fetchColumn();
+        return $result;
+    }
+
+
+    public function changeUserName(string $name, int $userId)
+    {
+        $query = "Update users SET name = :name WHERE id = :id";
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([':name' => $name, ':id' => $userId]);
+        return $statement->rowCount() > 0;
+    }
+
+    public function changeUserPhone(string $phone, int $userId)
+    {
+        $query = "Update users SET phone = :phone WHERE id = :id";
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([':phone' => $phone, ':id' => $userId]);
+        return $statement->rowCount() > 0;
+    }
+
+    public function changeUserEmail(string $email, int $userId)
+    {
+        $query = "Update users SET email = :email WHERE id = :id";
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([':email' => $email, ':id' => $userId]);
+        return $statement->rowCount() > 0;
+    }
+
+    public function changeUserPassword(string $password, int $userId)
+    {
+        $query = "Update users SET password = :password WHERE id = :id";
+        $statement = $this->pdo->prepare($query);
+        $statement->execute([':password' => $password, ':id' => $userId]);
+        return $statement->rowCount() > 0;
+    }
 }
